@@ -7,9 +7,7 @@ const DB_USER = process.env.DB_USER;
 const DB_PASSWORD = process.env.DB_PASS;
 const DB_NAME = process.env.DB_NAME;
 
-const DB_LOG = ( message : string ) => {
-	console.log( `[DB]: ${ message }` );
-}
+const DB_LOG = ( message : string ) => console.log( `[DB]: ${ message }` );
 
 const connectionToDB = mysql.createConnection({
 	host: DB_HOST,
