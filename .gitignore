@@ -1,0 +1,4 @@
+*.sql
+.env
+node_modules
+script.txt
