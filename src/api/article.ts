@@ -14,11 +14,12 @@ articleRouter.get('/:id', async( req : Request, res : Response ) => {
 
         const query2 = 'SELECT content FROM Article_Content WHERE ID_Article = ?';
         const content = await queryToDB(query2, [ id ]);
-        if (content.length === 0) res.status(404).json({ error: 'No content found' });
+
+        const content2Send = content?.length >= 1 ? content[ 0 ].content : 'No content found';
 
         const result = {
             ...article[0],
-            content : content[ 0 ].content
+            content : content2Send
         }
 
 		res.status(200).json( result );

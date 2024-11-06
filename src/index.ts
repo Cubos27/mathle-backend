@@ -8,7 +8,8 @@ import {
   topicRouter,
   articleRouter,
 
-  articlesRouter
+  articlesRouter,
+  editorRouter
 } from './api';
 
 // SETTUP
@@ -19,7 +20,7 @@ const port = process.env.PORT || 3000;
 app.use(express.json());
 app.use(cors(
   {
-    origin: "http://localhost:5173",
+    origin: "*",
     methods: [ "GET", "POST", "PUT", "DELETE" ],
     allowedHeaders: [ "Content-Type" ]
   }
@@ -32,6 +33,7 @@ app.use('/api/topic', topicRouter );
 app.use('/api/article', articleRouter );
 
 app.use('/api/admin/articles', articlesRouter );
+app.use('/api/admin/editor', editorRouter );
 
 // RUN SERVER
 app.listen( port, () => {

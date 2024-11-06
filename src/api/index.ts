@@ -4,6 +4,7 @@ import topicRouter from "./topic";
 import articleRouter from "./article";
 
 import articlesRouter from "./admin/articles";
+import editorRouter from "./admin/editor";
 
 export {
     exploreRouter,
@@ -11,5 +12,6 @@ export {
     topicRouter,
     articleRouter,
 
-    articlesRouter
+    articlesRouter,
+    editorRouter
 };
