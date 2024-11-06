@@ -9,28 +9,17 @@ const DB_NAME = process.env.DB_NAME;
 
 const DB_LOG = ( message : string ) => console.log( `[DB]: ${ message }` );
 
-const connectionToDB = mysql.createConnection({
+const pool = mysql.createPool({
 	host: DB_HOST,
 	user: DB_USER,
 	password: DB_PASSWORD,
-	database: DB_NAME
+	database: DB_NAME,
+	connectionLimit: 10
 });
-
-export const local_connection = connectionToDB;
-
-export const connectToDB = () => {
-	connectionToDB.connect( (err) => {
-		if (err) {
-			DB_LOG('error connecting: ' + err + '\n');
-			return;
-		}
-		DB_LOG('connected as id ' + connectionToDB.threadId + '\n');
-	});
-}
 
 export const queryToDB = ( query : string, params : any[] ) : Promise<any> => {
 	return new Promise( (resolve, reject) => {
-		connectionToDB.query( query, params, (err, result) => {
+		pool.query( query, params, (err, result) => {
 			if (err) {
 				DB_LOG('error:' + err + '\n');
 				reject( err );
@@ -40,8 +29,8 @@ export const queryToDB = ( query : string, params : any[] ) : Promise<any> => {
 	});
 }
 
-export const closeConnection = () => {
-	connectionToDB.end((err) => {
+export const closeConnection = ( ) => {
+	pool.end((err) => {
 		if (err) DB_LOG('error:' + err + '\n');
 		else DB_LOG('Connection closed successfully	\n');
 	});

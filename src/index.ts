@@ -2,9 +2,14 @@ import express, { Express, Request, Response } from 'express';
 import dotenv from 'dotenv';
 import cors from "cors";
 
-import { connectToDB, queryToDB } from '../db/connection';
-import exploreRouter from './api/explore';
-import subjectRouter from './api/subject';
+import {
+  exploreRouter,
+  subjectRouter,
+  topicRouter,
+  articleRouter,
+
+  articlesRouter
+} from './api';
 
 // SETTUP
 dotenv.config();
@@ -23,9 +28,12 @@ app.use(cors(
 // REFERENCES
 app.use('/api/explore', exploreRouter );
 app.use('/api/subject', subjectRouter );
+app.use('/api/topic', topicRouter );
+app.use('/api/article', articleRouter );
+
+app.use('/api/admin/articles', articlesRouter );
 
 // RUN SERVER
 app.listen( port, () => {
 	console.log(`[server]: Server is running at port:${ port }`);
-	connectToDB();
 });
