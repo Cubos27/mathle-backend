@@ -4,13 +4,20 @@ import { toTitleCase } from '../../utils';
 
 const articlesRouter = express.Router();
 
+type TChildArticle = {
+	ID_Article: number;
+	has_content: boolean;
+	title: string;
+	type: number;
+}; 
+
 articlesRouter.get('/', async( req : Request, res : Response ) => {
 	try {
 		const query = 'SELECT ID_Article, has_content, title, type FROM Article';
 		const articles = await queryToDB(query, []);
         if (articles.length === 0) res.status(404).json({ error: 'No article found' });
 
-		const articles2Send = articles.map((article) => ({
+		const articles2Send = articles.map((article : TChildArticle) => ({
 			...article,
 			title: toTitleCase(article.title),
 		}));

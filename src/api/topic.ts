@@ -4,6 +4,14 @@ import { toTitleCase } from '../utils';
 
 const topicRouter = express.Router();
 
+type TChildArticle = {
+    ID_Article: number;
+    ID_Prev_Article: number;
+    has_content: boolean;
+    img_cover: string;
+    title: string;
+};
+
 topicRouter.get('/:id', async( req : Request, res : Response ) => {
 	try {
         const { id } = req.params;
@@ -15,7 +23,7 @@ topicRouter.get('/:id', async( req : Request, res : Response ) => {
         
         const query2 = 'SELECT ID_Article, ID_Prev_Article, has_content, title FROM Article WHERE ID_Parent = ?';
         const articles = await queryToDB(query2, [ id ]);
-        const articles2Send = articles.map((article) => ({
+        const articles2Send = articles.map((article: TChildArticle) => ({
             ...article,
             title: toTitleCase(article.title),
         }));
