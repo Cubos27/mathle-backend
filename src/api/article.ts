@@ -1,5 +1,6 @@
 import express, { Request, Response } from 'express';
 import { queryToDB } from '../../db/connection';
+import { toTitleCase } from '../utils';
 
 const articleRouter = express.Router();
 
@@ -19,6 +20,7 @@ articleRouter.get('/:id', async( req : Request, res : Response ) => {
 
         const result = {
             ...article[0],
+            title : toTitleCase( article[0].title ),
             content : content2Send
         }
 
