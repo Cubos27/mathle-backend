@@ -22,7 +22,7 @@ articlesRouter.get('/', async( req : Request, res : Response ) => {
 			title: toTitleCase(article.title),
 		}));
         
-		res.status(200).json({ articles2Send });
+		res.status(200).json( articles2Send );
 	} catch (error) {
 		console.error('Error fetching article:', error);
 		res.status(500).json({ error: 'Error fetching article' });
