@@ -1,6 +1,8 @@
 import express, { Request, Response } from 'express';
 import { queryToDB } from '../../../db/connection';
 
+import { toLowerCase, toTitleCase } from '../../utils';
+
 const editorRouter = express.Router();
 
 editorRouter.post('/', async( req : Request, res : Response ) => {
@@ -37,7 +39,7 @@ editorRouter.post('/', async( req : Request, res : Response ) => {
         const ans = await queryToDB(query, [ 
             ID_Parent, 
             ID_Prev_Article, 
-            title, 
+            toLowerCase( title ), 
             parseInt( type ), 
             description, 
             has_content, 
@@ -87,7 +89,7 @@ editorRouter.get('/:id', async( req : Request, res : Response ) => {
             return;
         }
 
-        const article = { ...ans1[0], content: '' };
+        const article = { ...ans1[0], title : toTitleCase( ans1[0].title ) ,content: '' };
         const query2 = `SELECT content FROM article_content WHERE ID_Article = ?`;
         const ans2 = await queryToDB(query2, [id]);
 
@@ -100,7 +102,7 @@ editorRouter.get('/:id', async( req : Request, res : Response ) => {
     }
 });
 
-editorRouter.post('/:id', async( req : Request, res : Response ) => {
+editorRouter.put('/:id', async( req : Request, res : Response ) => {
 	try {
         const { id } = req.params;
         if (!id) {
@@ -142,7 +144,7 @@ editorRouter.post('/:id', async( req : Request, res : Response ) => {
         const ans = await queryToDB(query, [ 
             ID_Parent, 
             ID_Prev_Article, 
-            title, 
+            toLowerCase( title ), 
             parseInt( type ), 
             description, 
             has_content, 

@@ -1,7 +1,16 @@
 import express, { Request, Response } from 'express';
 import { queryToDB } from '../../db/connection';
+import { toTitleCase } from '../utils';
 
 const topicRouter = express.Router();
+
+type TChildArticle = {
+    ID_Article: number;
+    ID_Prev_Article: number;
+    has_content: boolean;
+    img_cover: string;
+    title: string;
+};
 
 topicRouter.get('/:id', async( req : Request, res : Response ) => {
 	try {
@@ -14,13 +23,20 @@ topicRouter.get('/:id', async( req : Request, res : Response ) => {
         
         const query2 = 'SELECT ID_Article, ID_Prev_Article, has_content, title FROM Article WHERE ID_Parent = ?';
         const articles = await queryToDB(query2, [ id ]);
+        const articles2Send = articles.map((article: TChildArticle) => ({
+            ...article,
+            title: toTitleCase(article.title),
+        }));
 
         const query3 = 'SELECT * FROM Article_Content WHERE ID_Article = ?';
         const content = await queryToDB(query3, [ id ]);
 
         const result = {
-            topic: article[0],
-            subtopics: articles,
+            topic: {
+                ...article[0],
+                title: toTitleCase(article[0].title)
+            },
+            subtopics: articles2Send,
             content: content
         }
 
