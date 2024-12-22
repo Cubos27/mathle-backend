@@ -16,28 +16,37 @@ Make sure you have the following installed on your system:
 
 Follow these steps to set up the project locally:
 
-1. **Clone the repository**  
+1. **Clone the repository**
 
-  git clone https://github.com/your-username/your-project-name.git
-  cd your-project-name
-   
+```bash
+  git clone https://github.com/Cubos27/mathle-backend.git
+  cd mathle-backend
+```
+
 2. **Create and activate a virtual environment**
 
-  python -m venv venv
-  source venv/bin/activate  # On Windows use `venv\Scripts\activate`
+```bash
+  python -m venv ./venv
+  source venv/bin/activate # On Windows use `venv\Scripts\activate`
+```
 
 3. **Install dependencies**
 
+```bash
   pip install -r requirements.txt
+```
 
 4. **Set up the MySQL database**
 
 Create a database in MySQL:
 
+```sql
   CREATE DATABASE mathle_db;
+```
 
 Update the database settings in the settings.py file:
 
+```py
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.mysql',
@@ -48,17 +57,22 @@ Update the database settings in the settings.py file:
             'PORT': '3306',
         }
     }
+```
 
 5. **Apply migrations**
 
+```bash
   python manage.py makemigrations
   python manage.py migrate
+```
 
 6. **Run the development server**
 
+```bash
   python manage.py runserver
+```
 
 Access the app
 Open your browser and navigate to:
 
-  http://127.0.0.1:8000/
+http://127.0.0.1:8000/
