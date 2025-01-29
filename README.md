@@ -1,21 +1,78 @@
-SETTUP
+# Django & MySQL Project
 
-This is an early stage and, due to timing, I just want to document the essentials to be able to continue working with my peers.
+A web application built using **Django** as the backend framework and **MySQL** as the database.
 
-1. Get XAMPP.
-2. Copy this repo locally.
-3. Run both servers, XAMPP and This.
-- To run the XAMPP server just turn on Apache and MySQL and click on Admin next to the MySQL "Stop" button.
-- Once you're in, go to "User Accounts" and import the master user, which code to do so is on the Team's Google Drive along with other configuration files.
-- To run the backend server (Express + TypeScript), type
-`npm i package.json`
-`npm run dev`
+## Prerequisites
 
+Make sure you have the following installed on your system:
 
-Tutorials used for settup
+- Python (version 3.8 or higher recommended)
+- MySQL (any compatible version)
+- Virtualenv (optional but recommended)
 
-[Build a REST API with Node.js, Express, and MySQL](https://blog.logrocket.com/build-rest-api-node-express-mysql/)\
-[How to set up TypeScript with Node.js and Express](https://blog.logrocket.com/how-to-set-up-node-typescript-express/)\
-[Create an XAMPP MySQL Database in 9 Easy Steps](https://hevodata.com/learn/xampp-mysql/)\
-[Express Database integration](https://expressjs.com/en/guide/database-integration.html#mysql)\
-[mysql package Github Repo](https://github.com/mysqljs/mysql)\
+---
+
+## Installation and Setup
+
+Follow these steps to set up the project locally:
+
+1. **Clone the repository**
+
+```bash
+  git clone https://github.com/Cubos27/mathle-backend.git
+  cd mathle-backend
+```
+
+2. **Create and activate a virtual environment**
+
+```bash
+  python -m venv ./venv
+  source venv/bin/activate # On Windows use `venv\Scripts\activate`
+```
+
+3. **Install dependencies**
+
+```bash
+  pip install -r requirements.txt
+```
+
+4. **Set up the MySQL database**
+
+Create a database in MySQL:
+
+```sql
+  CREATE DATABASE mathle_db;
+```
+
+Update the database settings in the settings.py file:
+
+```py
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.mysql',
+            'NAME': 'mathle_db',
+            'USER': 'your_mysql_user',
+            'PASSWORD': 'your_mysql_password',
+            'HOST': 'localhost',
+            'PORT': '3306',
+        }
+    }
+```
+
+5. **Apply migrations**
+
+```bash
+  python manage.py makemigrations
+  python manage.py migrate
+```
+
+6. **Run the development server**
+
+```bash
+  python manage.py runserver
+```
+
+Access the app
+Open your browser and navigate to:
+
+http://127.0.0.1:8000/
