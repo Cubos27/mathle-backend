@@ -10,5 +10,6 @@ urlpatterns = [
     path('api/register/', api.register),
     path('api/profile/', api.profile),
     path('api/logout/', api.api_logout),
+    path('api/get/articles/', api.get_all_articles),
 ]
 urlpatterns += router.urls

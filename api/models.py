@@ -15,12 +15,12 @@ class Admin(models.Model):
 
 class Article(models.Model):
     ID_Article = models.IntegerField(primary_key=True)
-    # ID_Parent = models.ForeignKey(  # may be wrong
-    #     'Article',
-    #     on_delete=models.CASCADE,
-    #     null=True,
-    #     blank=False
-    # )
+    ID_parent = models.ForeignKey(
+        'Article',
+        on_delete=models.CASCADE,
+        null=True,
+        blank=False
+    )
     ID_Prev_Article = models.ForeignKey(  # may be wrong
         'Article',
         on_delete=models.CASCADE,
