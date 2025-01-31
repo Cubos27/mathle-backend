@@ -41,22 +41,16 @@ Follow these steps to set up the project locally:
 Create a database in MySQL:
 
 ```sql
-  CREATE DATABASE mathle_db;
+  CREATE DATABASE mathle_learn_db;
 ```
 
-Update the database settings in the settings.py file:
+Set the .env file with your credentials for the DB
 
-```py
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.mysql',
-            'NAME': 'mathle_db',
-            'USER': 'your_mysql_user',
-            'PASSWORD': 'your_mysql_password',
-            'HOST': 'localhost',
-            'PORT': '3306',
-        }
-    }
+```
+DB_HOST=<your host>
+DB_USER=<user>
+DB_PASS=<password>
+DB_NAME=<DB name>
 ```
 
 5. **Apply migrations**
