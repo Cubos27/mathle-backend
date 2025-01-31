@@ -4,28 +4,21 @@ from django.contrib.auth import get_user_model
 from django.db import models
 
 
-class Admin(models.Model):
-    ID_user = models.ForeignKey(
-        get_user_model(),
-        on_delete=models.CASCADE,
-        primary_key=True
-    )
-    admin_type = models.IntegerField(null=False)
-
-
 class Article(models.Model):
-    ID_Article = models.IntegerField(primary_key=True)
-    # ID_Parent = models.ForeignKey(  # may be wrong
-    #     'Article',
-    #     on_delete=models.CASCADE,
-    #     null=True,
-    #     blank=False
-    # )
-    ID_Prev_Article = models.ForeignKey(  # may be wrong
-        'Article',
-        on_delete=models.CASCADE,
+    ID_article = models.IntegerField(primary_key=True)
+    ID_parent = models.ForeignKey(
+        'self',
+        on_delete=models.SET_NULL,
+        related_name='Article',
         null=True,
         blank=False
+    )
+    ID_prev_article = models.OneToOneField(
+        'self',
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=False
+
     )
     title = models.CharField(
         max_length=50,
@@ -37,47 +30,53 @@ class Article(models.Model):
         null=False
     )
     type = models.IntegerField(null=False)
-    has_content = models.BooleanField(null=True)
+    has_content = models.BooleanField(null=False)
     img_cover = models.TextField(null=True)
     parent_type = models.IntegerField(null=True)
     score = models.IntegerField(null=True)
 
 
 class Article_Content(models.Model):
-    ID_Content = models.AutoField(primary_key=True)
-    ID_Article = models.ForeignKey(
+    ID_content = models.AutoField(primary_key=True)
+    ID_article = models.ForeignKey(
         'Article',
         on_delete=models.CASCADE,
         null=False
     )
-    content = models.TextField(null=False)
+    content = models.TextField(null=True)
 
 
 class Article_Feedback(models.Model):
-    ID_Article = models.ForeignKey(
+    ID_feedback = models.IntegerField(primary_key=True)
+    ID_article = models.ForeignKey(
         'Article',
         on_delete=models.CASCADE,
-        null=False,
-        primary_key=True
+        null=False
     )
     punctuation = models.IntegerField(null=False)
     comments = models.TextField(null=True)
 
 
 class List(models.Model):
-    ID_List = models.AutoField(primary_key=True)
-    ID_User = models.ForeignKey(
+    ID_list = models.AutoField(primary_key=True)
+    ID_user = models.ForeignKey(
         get_user_model(),
         on_delete=models.CASCADE,
         null=False
     )
     list_name = models.TextField(null=False)
-    is_private = models.SmallIntegerField(null=False)
+    is_private = models.BooleanField(null=False, default=True)
 
 
 class List_Item(models.Model):
-    ID_List = models.AutoField(primary_key=True)
-    ID_Article = models.ForeignKey(
+    ID_list_item = models.IntegerField(primary_key=True)
+    ID_list = models.ForeignKey(
+        'List',
+        on_delete=models.CASCADE,
+        null=False,
+        blank=False,
+    )
+    ID_article = models.ForeignKey(
         'Article',
         on_delete=models.CASCADE,
         null=False,
@@ -86,13 +85,13 @@ class List_Item(models.Model):
 
 
 class Progress(models.Model):
-    ID_User = models.ForeignKey(
+    ID_user = models.ForeignKey(
         get_user_model(),
         on_delete=models.CASCADE,
         blank=False,
         primary_key=True
     )
-    ID_Article = models.ForeignKey(
+    ID_article = models.ForeignKey(
         'Article',
         on_delete=models.CASCADE,
         null=False,

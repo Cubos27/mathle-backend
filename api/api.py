@@ -10,6 +10,7 @@ from django.contrib.auth.models import User
 from django.shortcuts import get_object_or_404
 
 from .serializer import UserSerializer
+from .models import Article
 
 
 @api_view(["POST"])
@@ -62,3 +63,14 @@ def api_logout(request):
     request.user.auth_token.delete()
     logout(request)
     return Response(status=status.HTTP_200_OK)
+
+
+@api_view(['GET'])
+def get_all_articles(request):
+    articles_list = Article.objects.all()
+
+    for article in articles_list:
+        if '-' in article.title:
+            article.title = article.title.replace('-', ' ')
+
+    return Response(articles_list, status=status.HTTP_200_OK)
